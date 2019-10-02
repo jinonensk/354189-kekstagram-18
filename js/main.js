@@ -34,21 +34,17 @@ var getRandomValue = function (min, max) {
 };
 
 var makeComment = function () {
-  var nameIndex = getRandomValue(0, NAMES.length - 1);
-  var commentIndex = getRandomValue(0, COMMENTS.length - 1);
-  var avatarIndex = getRandomValue(1, AVATARS_QUANTITY);
   var comment = {
-    avatar: 'img/avatar-' + avatarIndex + '.svg',
-    message: COMMENTS[commentIndex],
-    name: NAMES[nameIndex],
+    avatar: 'img/avatar-' + getRandomValue(1, AVATARS_QUANTITY) + '.svg',
+    message: COMMENTS[getRandomValue(0, COMMENTS.length - 1)],
+    name: NAMES[getRandomValue(0, NAMES.length - 1)],
   };
   return comment;
 };
 
 var makeComments = function () {
   var commentsArray = [];
-  var randomCommensQuantity = getRandomValue(1, MAX_COMMENTS_QUANTITY);
-  for (var i = 1; i <= randomCommensQuantity; i++) {
+  for (var i = 1; i <= getRandomValue(1, MAX_COMMENTS_QUANTITY); i++) {
     var newComment = makeComment();
     commentsArray.push(newComment);
   }
