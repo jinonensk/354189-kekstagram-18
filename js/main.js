@@ -28,41 +28,37 @@ var pictureTemplate = document.querySelector('#picture')
 
 var fragment = document.createDocumentFragment();
 var picturesSection = document.querySelector('.pictures');
+var picturesArray = [];
 
 var getRandomValue = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 var makeComment = function () {
-  var comment = {
+  return {
     avatar: 'img/avatar-' + getRandomValue(1, AVATARS_QUANTITY) + '.svg',
     message: COMMENTS[getRandomValue(0, COMMENTS.length - 1)],
     name: NAMES[getRandomValue(0, NAMES.length - 1)],
   };
-  return comment;
 };
 
 var makeComments = function () {
   var commentsArray = [];
   for (var i = 1; i <= getRandomValue(1, MAX_COMMENTS_QUANTITY); i++) {
-    var newComment = makeComment();
-    commentsArray.push(newComment);
+    commentsArray.push(makeComment());
   }
   return commentsArray;
 };
 
 var makePicturesArray = function () {
-  var picturesArray = [];
   for (var i = 1; i <= OBJECT_QUANTITY; i++) {
-    var picture = {
+    picturesArray.push({
       url: 'photos/' + i + '.jpg',
       description: getRandomValue(0, DESCRIPTIONS.length - 1),
       likes: getRandomValue(MIN_LIKES, MAX_LIKES),
       commets: makeComments(),
-    };
-    picturesArray.push(picture);
+    });
   }
-  return picturesArray;
 };
 
 var renderPicture = function (picture) {
@@ -74,12 +70,12 @@ var renderPicture = function (picture) {
 };
 
 var addPicturesToPage = function () {
-  var pictures = makePicturesArray();
-  for (var i = 0; i < pictures.length; i++) {
-    fragment.appendChild(renderPicture(pictures[i]));
+  for (var i = 0; i < picturesArray.length; i++) {
+    fragment.appendChild(renderPicture(picturesArray[i]));
   }
   picturesSection.appendChild(fragment);
 };
 
+makePicturesArray();
 addPicturesToPage();
 
