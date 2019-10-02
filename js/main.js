@@ -54,7 +54,7 @@ var makePicturesArray = function () {
   for (var i = 1; i <= OBJECT_QUANTITY; i++) {
     picturesArray.push({
       url: 'photos/' + i + '.jpg',
-      description: getRandomValue(0, DESCRIPTIONS.length - 1),
+      description: DESCRIPTIONS[getRandomValue(0, DESCRIPTIONS.length - 1)],
       likes: getRandomValue(MIN_LIKES, MAX_LIKES),
       commets: makeComments(),
     });
@@ -69,13 +69,42 @@ var renderPicture = function (picture) {
   return newPicture;
 };
 
-var addPicturesToPage = function () {
-  for (var i = 0; i < picturesArray.length; i++) {
-    fragment.appendChild(renderPicture(picturesArray[i]));
+var addElementsToPage = function (array, pageTarget, renderFunction) {
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(renderFunction(array[i]));
   }
-  picturesSection.appendChild(fragment);
+  pageTarget.appendChild(fragment);
 };
 
 makePicturesArray();
-addPicturesToPage();
+addElementsToPage(picturesArray, picturesSection, renderPicture);
+
+// task 3-3
+var bigPicture = document.querySelector('.big-picture');
+var bigPictureComment = bigPicture.querySelector('.social__comment');
+
+bigPicture.classList.remove('hidden');
+bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
+
+var updateBigPictureContent = function (content) {
+  var bigPictureComments = bigPicture.querySelector('.social__comments');
+  bigPicture.querySelector('.big-picture__img').src = content.url;
+  bigPicture.querySelector('.likes-count').textContent = content.likes;
+  bigPicture.querySelector('.comments-count').textContent = content.commets.length;
+  bigPicture.querySelector('.social__caption').textContent = content.description;
+
+  addElementsToPage(content.commets, bigPictureComments, renderComment);
+};
+
+var renderComment = function (comment) {
+  var newComment = bigPictureComment.cloneNode(true);
+  var commentImage = newComment.querySelector('.social__picture');
+  commentImage.src = comment.avatar;
+  commentImage.alt = comment.name;
+  newComment.querySelector('.social__text').textContent = comment.message;
+  return newComment;
+};
+
+updateBigPictureContent(picturesArray[1]);
 
