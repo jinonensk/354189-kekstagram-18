@@ -81,14 +81,13 @@ addElementsToPage(picturesArray, picturesSection, renderPicture);
 
 // task 3-3
 var bigPicture = document.querySelector('.big-picture');
-var bigPictureComment = bigPicture.querySelector('.social__comment');
+var bigPictureComments = bigPicture.querySelector('.social__comments');
 
 bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 bigPicture.querySelector('.comments-loader').classList.add('visually-hidden');
 
 var updateBigPictureContent = function (content) {
-  var bigPictureComments = bigPicture.querySelector('.social__comments');
-  bigPicture.querySelector('.big-picture__img').src = content.url;
+  bigPicture.querySelector('.big-picture__img img').src = content.url;
   bigPicture.querySelector('.likes-count').textContent = content.likes;
   bigPicture.querySelector('.comments-count').textContent = content.commets.length;
   bigPicture.querySelector('.social__caption').textContent = content.description;
@@ -96,8 +95,18 @@ var updateBigPictureContent = function (content) {
   addElementsToPage(content.commets, bigPictureComments, renderComment);
 };
 
+var cloneAndCleanComment = function () {
+  var newComment = bigPicture.querySelector('.social__comment');
+  while (bigPictureComments.firstChild) {
+    bigPictureComments.removeChild(bigPictureComments.firstChild);
+  }
+  return newComment;
+};
+
+var savedCommentNode = cloneAndCleanComment();
+
 var renderComment = function (comment) {
-  var newComment = bigPictureComment.cloneNode(true);
+  var newComment = savedCommentNode.cloneNode(true);
   var commentImage = newComment.querySelector('.social__picture');
   commentImage.src = comment.avatar;
   commentImage.alt = comment.name;
@@ -105,10 +114,9 @@ var renderComment = function (comment) {
   return newComment;
 };
 
-updateBigPictureContent(picturesArray[1]);
-
 // task 4
 var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var SCALE_CONTROL_MAX_VALUE = 100;
 var SCALE_CONTROL_MIN_VALUE = 25;
 var SCALE_CONTROL_STEP = 25;
@@ -304,3 +312,51 @@ textHashtags.addEventListener('input', function (evt) {
   textHashtags.setCustomValidity(checkValidation(evt.target.value));
 });
 
+// task 4-3
+var bigPictureClose = bigPicture.querySelector('.big-picture__cancel');
+var pictures = document.querySelector('.pictures');
+
+var getCurrentImageContent = function (str) {
+  var url = str.slice(str.indexOf('photos'));
+  return picturesArray.filter(function (item) {
+    return item.url === url;
+  })[0];
+};
+
+var onBigPictureEscPress = function (evt) {
+  if (
+    evt.keyCode === ESC_KEYCODE
+    && !evt.target.classList.contains('social__footer-text')
+  ) {
+    closeBigPicture();
+  }
+};
+
+var openBigPicture = function () {
+  bigPicture.classList.remove('hidden');
+  document.addEventListener('keydown', onBigPictureEscPress);
+};
+
+var closeBigPicture = function () {
+  bigPicture.classList.add('hidden');
+  document.removeEventListener('keydown', onBigPictureEscPress);
+  savedCommentNode = cloneAndCleanComment();
+};
+
+pictures.addEventListener('click', function (evt) {
+  if (evt.screenX !== 0) {
+    updateBigPictureContent(getCurrentImageContent(evt.target.src));
+    openBigPicture();
+  }
+});
+
+pictures.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    updateBigPictureContent(getCurrentImageContent(evt.target.querySelector('img').src));
+    openBigPicture();
+  }
+});
+
+bigPictureClose.addEventListener('click', function () {
+  closeBigPicture();
+});
