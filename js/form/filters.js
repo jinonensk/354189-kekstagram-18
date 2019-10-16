@@ -32,14 +32,6 @@
     return currentFilter.STYLE + '(' + value + currentFilter.UNIT + ')';
   };
 
-  for (var i = 0; i < filterButtonts.length; i++) {
-    filterButtonts[i].addEventListener('change', function (evt) {
-      toApplyFilter(evt.target.value);
-      form.uploadFormImage.style.cssText = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
-      setPinPisition(CONST.MAX_SLIDER_VALUE);
-    });
-  }
-
   var calcFilterValue = function (value) {
     return (currentFilter.MAX_VALUE - currentFilter.MIN_VALUE) * (value / 100) + currentFilter.MIN_VALUE;
   };
@@ -58,6 +50,14 @@
     effectLevelPin.style.left = value + '%';
     effectLevelDepth.style.width = value + '%';
   };
+
+  for (var i = 0; i < filterButtonts.length; i++) {
+    filterButtonts[i].addEventListener('change', function (evt) {
+      toApplyFilter(evt.target.value);
+      form.uploadFormImage.style.cssText = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+      setPinPisition(CONST.MAX_SLIDER_VALUE);
+    });
+  }
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
     var startSliderPosition = effectLevelPin.offsetLeft;
