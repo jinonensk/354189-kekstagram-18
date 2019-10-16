@@ -7,6 +7,7 @@
   var filterButtonts = form.imgUpload.querySelectorAll('.effects__radio');
   var filterSlider = form.imgUpload.querySelector('.img-upload__effect-level');
   var effectLevelPin = form.imgUpload.querySelector('.effect-level__pin');
+  var effectLevelDepth = form.imgUpload.querySelector('.effect-level__depth');
 
   filterSlider.classList.add('hidden');
 
@@ -28,14 +29,14 @@
   };
 
   var setFilterStyle = function (value) {
-    form.uploadFormImage.style.cssText = currentFilter.STYLE + '(' + value + currentFilter.UNIT + ')';
+    return currentFilter.STYLE + '(' + value + currentFilter.UNIT + ')';
   };
 
   for (var i = 0; i < filterButtonts.length; i++) {
     filterButtonts[i].addEventListener('change', function (evt) {
       toApplyFilter(evt.target.value);
-      setFilterStyle(calcFilterValue(CONST.SCALE_CONTROL_MAX_VALUE));
-      form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+      form.uploadFormImage.style.cssText = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+      setPinPisition(CONST.MAX_SLIDER_VALUE);
     });
   }
 
@@ -43,9 +44,41 @@
     return (currentFilter.MAX_VALUE - currentFilter.MIN_VALUE) * (value / 100) + currentFilter.MIN_VALUE;
   };
 
-  effectLevelPin.addEventListener('mouseup', function (evt) {
-    var currentValue = parseInt(evt.target.style.left, 10);
-    setFilterStyle(calcFilterValue(currentValue));
-    form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+  var calcSliderValue = function (positition, maxLength) {
+    var newSliderValue = Math.round(positition / maxLength * 100);
+    if (newSliderValue < CONST.MIN_SLIDER_VALUE) {
+      newSliderValue = CONST.MIN_SLIDER_VALUE;
+    } else if (newSliderValue > CONST.MAX_SLIDER_VALUE) {
+      newSliderValue = CONST.MAX_SLIDER_VALUE;
+    }
+    return newSliderValue;
+  };
+
+  var setPinPisition = function (value) {
+    effectLevelPin.style.left = value + '%';
+    effectLevelDepth.style.width = value + '%';
+  };
+
+  effectLevelPin.addEventListener('mousedown', function (evt) {
+    var startSliderPosition = effectLevelPin.offsetLeft;
+    var startX = evt.clientX;
+    var saveImageScale = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+
+    var onMouseMove = function (moveEvt) {
+      var shift = startX - moveEvt.clientX;
+      startSliderPosition -= shift;
+      startX = moveEvt.clientX;
+      var newValue = calcSliderValue(startSliderPosition, CONST.SLIDER_LENGTH);
+      setPinPisition(newValue);
+      form.uploadFormImage.style.cssText = setFilterStyle(calcFilterValue(newValue)) + '; ' + saveImageScale;
+    };
+
+    var onMouseUp = function () {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 })();

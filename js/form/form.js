@@ -11,7 +11,7 @@
 
   var setScaleValue = function (value) {
     uploadFormValue.value = value + '%';
-    window.form.toTransformImage(value);
+    uploadFormImage.style.cssText = window.form.toTransformImage(value);
   };
 
   var onImgUploadEscPress = function (evt) {
@@ -106,7 +106,7 @@
     uploadFormImage: uploadFormImage,
     toTransformImage: function (value) {
       var scale = value / 100;
-      uploadFormImage.style.cssText = 'transform: scale(' + scale + ')';
+      return 'transform: scale(' + scale + ')';
     },
   };
 })();
