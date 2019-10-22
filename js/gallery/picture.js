@@ -21,7 +21,7 @@
   });
 
   pictures.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === CONST.ENTER_KEYCODE) {
+    if (evt.keyCode === CONST.ENTER_KEYCODE && evt.target.classList.contains('picture')) {
       preview.updateBigPictureContent(getCurrentImageContent(evt.target.querySelector('img').src));
       preview.openBigPicture();
     }

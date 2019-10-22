@@ -2,7 +2,6 @@
 
 (function () {
   var CONST = window.CONST;
-  var utils = window.utils;
 
   var requestOptions = {};
   var request = function (options) {
@@ -13,14 +12,14 @@
       if (xhr.status === CONST.SUCCESS_SERVER_ANSWER) {
         options.onSuccess(xhr.response);
       } else {
-        utils.errorHandler('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        options.onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
     xhr.addEventListener('error', function () {
-      utils.errorHandler('Произошла ошибка соединения');
+      options.onError('Произошла ошибка соединения');
     });
     xhr.addEventListener('timeout', function () {
-      utils.errorHandler('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      options.onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
     xhr.timeout = CONST.XHR_TIMEOUT;
 
@@ -32,11 +31,22 @@
   };
 
   window.dbRequests = {
-    load: function (onSuccess) {
+    load: function (onSuccess, onError) {
       requestOptions = {
         method: 'GET',
         url: CONST.URL_LOAD,
         onSuccess: onSuccess,
+        onError: onError,
+      };
+      request(requestOptions);
+    },
+    upload: function (data, onSuccess, onError) {
+      requestOptions = {
+        method: 'POST',
+        url: CONST.URL_UPLOAD,
+        onSuccess: onSuccess,
+        onError: onError,
+        data: data,
       };
       request(requestOptions);
     },
