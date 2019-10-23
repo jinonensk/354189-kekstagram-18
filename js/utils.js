@@ -1,12 +1,7 @@
 'use strict';
 (function () {
   var CONST = window.CONST;
-
   var fragment = document.createDocumentFragment();
-  var main = document.querySelector('main');
-  var errorTemplate = document.querySelector('#error')
-      .content
-      .querySelector('.error');
 
   window.utils = {
     getRandomValue: function (min, max) {
@@ -17,12 +12,6 @@
         fragment.appendChild(renderFunction(array[i]));
       }
       pageTarget.appendChild(fragment);
-    },
-    errorHandler: function (errorMessage) {
-      var newError = errorTemplate.cloneNode(true);
-      newError.querySelector('.error__title').textContent = errorMessage;
-      fragment.appendChild(newError);
-      main.appendChild(fragment);
     },
     toSplitCommentsArray: function (array) {
       var size = CONST.COMMENTS_PART_SIZE;

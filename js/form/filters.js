@@ -6,8 +6,7 @@
 
   var filterButtonts = form.imgUpload.querySelectorAll('.effects__radio');
   var filterSlider = form.imgUpload.querySelector('.img-upload__effect-level');
-  var effectLevelPin = form.imgUpload.querySelector('.effect-level__pin');
-  var effectLevelDepth = form.imgUpload.querySelector('.effect-level__depth');
+  var effectLevelInput = form.imgUpload.querySelector('.effect-level__value');
 
   filterSlider.classList.add('hidden');
 
@@ -47,8 +46,9 @@
   };
 
   var setPinPisition = function (value) {
-    effectLevelPin.style.left = value + '%';
-    effectLevelDepth.style.width = value + '%';
+    form.effectLevelPin.style.left = value + '%';
+    form.effectLevelDepth.style.width = value + '%';
+    effectLevelInput.value = value;
   };
 
   for (var i = 0; i < filterButtonts.length; i++) {
@@ -59,8 +59,8 @@
     });
   }
 
-  effectLevelPin.addEventListener('mousedown', function (evt) {
-    var startSliderPosition = effectLevelPin.offsetLeft;
+  form.effectLevelPin.addEventListener('mousedown', function (evt) {
+    var startSliderPosition = form.effectLevelPin.offsetLeft;
     var startX = evt.clientX;
     var saveImageScale = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
 

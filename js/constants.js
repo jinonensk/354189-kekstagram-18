@@ -57,6 +57,7 @@
   var SUCCESS_SERVER_ANSWER = 200;
   var XHR_TIMEOUT = 30 * 1000; // 30s
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
+  var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var COMMENTS_PART_SIZE = 5;
 
   window.CONST = {
@@ -76,5 +77,6 @@
     URL_LOAD: URL_LOAD,
     XHR_TIMEOUT: XHR_TIMEOUT,
     COMMENTS_PART_SIZE: COMMENTS_PART_SIZE,
+    URL_UPLOAD: URL_UPLOAD,
   };
 })();
