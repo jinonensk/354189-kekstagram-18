@@ -60,7 +60,7 @@
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var COMMENTS_PART_SIZE = 5;
   var PICTURES_FILTERS = {
-    DEBOUNCE_INTERVAL: 500,
+    THROTTLE_INTERVAL: 500,
     QUANTITY_IN_RANDOM: 10,
     FIELD_NAME_IN_DISCUSSED: 'comments',
     POPULAR_BUTTON_ID: 'filter-popular',

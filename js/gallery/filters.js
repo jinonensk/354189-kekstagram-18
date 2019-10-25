@@ -34,7 +34,7 @@
           gallery.filterPicturesHandler(window.picturesArray);
           break;
       }
-    }, PICTURES_FILTERS.DEBOUNCE_INTERVAL);
+    }, PICTURES_FILTERS.THROTTLE_INTERVAL);
   };
 
   var filters = gallery.picturesFilters.querySelectorAll('.img-filters__button');
