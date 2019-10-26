@@ -2,7 +2,6 @@
 (function () {
   var CONST = window.CONST;
   var fragment = document.createDocumentFragment();
-  var time = Date.now();
 
   window.utils = {
     getRandomValue: function (min, max) {
@@ -22,27 +21,21 @@
       }
       return subarray;
     },
-    getRandomIndexFromArray: function (quantity, array) {
-      var result = [];
-      while (result.length < quantity) {
-        var randomIndex = window.utils.getRandomValue(0, array.length - 1);
-        if (result.indexOf(randomIndex === -1)) {
-          result.push(randomIndex);
-        }
-      }
-      return result;
-    },
-    throttle: function (func, interval) {
-      if ((time + interval - Date.now()) < 0) {
-        func();
-        time = Date.now();
-      }
-    },
     sortItemsByField: function (array, fieldName) {
       var copy = array.slice();
       return copy.sort(function (item, nextItem) {
         return (item[fieldName] < nextItem[fieldName] ? 1 : -1);
       });
+    },
+    toShuffleArray: function (array) {
+      var copy = array.slice();
+      for (var i = copy.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * i);
+        var temporaryItem = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temporaryItem;
+      }
+      return copy;
     },
   };
 })();
