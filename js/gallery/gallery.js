@@ -7,6 +7,7 @@
     .content
     .querySelector('.picture');
   var picturesSection = document.querySelector('.pictures');
+  var picturesFilters = document.querySelector('.img-filters');
 
   var renderPicture = function (picture) {
     var newPicture = pictureTemplate.cloneNode(true);
@@ -19,6 +20,7 @@
   var loadDataSuccessHandler = function (data) {
     utils.addElementsToPage(data, picturesSection, renderPicture);
     window.picturesArray = data;
+    picturesFilters.classList.remove('img-filters--inactive');
   };
 
   var loadDataErrorHandler = function (errorMessage) {
@@ -33,4 +35,23 @@
   };
 
   dbRequests.load(loadDataSuccessHandler, loadDataErrorHandler);
+
+  var clearGallery = function () {
+    var picturesCollection = picturesSection.children;
+    for (var i = picturesCollection.length - 1; i >= 0; i--) {
+      if (picturesCollection[i].classList.contains('picture')) {
+        picturesCollection[i].remove();
+      }
+    }
+  };
+
+  var filterPicturesHandler = function (array) {
+    utils.addElementsToPage(array, picturesSection, renderPicture);
+  };
+
+  window.gallery = {
+    picturesFilters: picturesFilters,
+    clearGallery: clearGallery,
+    filterPicturesHandler: filterPicturesHandler,
+  };
 })();

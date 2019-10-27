@@ -20,7 +20,23 @@
         subarray[i] = array.slice((i * size), (i * size) + size);
       }
       return subarray;
-    }
+    },
+    sortItemsByField: function (array, fieldName) {
+      var copy = array.slice();
+      return copy.sort(function (item, nextItem) {
+        return (item[fieldName] < nextItem[fieldName] ? 1 : -1);
+      });
+    },
+    toShuffleArray: function (array) {
+      var copy = array.slice();
+      for (var i = copy.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * i);
+        var temporaryItem = copy[i];
+        copy[i] = copy[j];
+        copy[j] = temporaryItem;
+      }
+      return copy;
+    },
   };
 })();
 

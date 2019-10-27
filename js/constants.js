@@ -59,6 +59,14 @@
   var URL_LOAD = 'https://js.dump.academy/kekstagram/data';
   var URL_UPLOAD = 'https://js.dump.academy/kekstagram';
   var COMMENTS_PART_SIZE = 5;
+  var PICTURES_FILTERS = {
+    THROTTLE_INTERVAL: 500,
+    QUANTITY_IN_RANDOM: 10,
+    FIELD_NAME_IN_DISCUSSED: 'comments',
+    POPULAR_BUTTON_ID: 'filter-popular',
+    RANDOM_BUTTON_ID: 'filter-random',
+    DISCUSSED_BUTTON_ID: 'filter-discussed',
+  };
 
   window.CONST = {
     ESC_KEYCODE: ESC_KEYCODE,
@@ -78,5 +86,6 @@
     XHR_TIMEOUT: XHR_TIMEOUT,
     COMMENTS_PART_SIZE: COMMENTS_PART_SIZE,
     URL_UPLOAD: URL_UPLOAD,
+    PICTURES_FILTERS: PICTURES_FILTERS,
   };
 })();
