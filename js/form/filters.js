@@ -59,18 +59,22 @@
     });
   }
 
-  form.effectLevelPin.addEventListener('mousedown', function (evt) {
-    var startSliderPosition = form.effectLevelPin.offsetLeft;
-    var startX = evt.clientX;
+  var updateDataByPin = function (value) {
     var saveImageScale = form.toTransformImage(parseInt(form.uploadFormValue.value, 10));
+    var newValue = calcSliderValue(value, CONST.SLIDER_LENGTH);
+    setPinPisition(newValue);
+    form.uploadFormImage.style.cssText = setFilterStyle(calcFilterValue(newValue)) + '; ' + saveImageScale;
+  };
+
+  form.effectLevelPin.addEventListener('mousedown', function (evt) {
+    var sliderPosition = form.effectLevelPin.offsetLeft;
+    var startX = evt.clientX;
 
     var onMouseMove = function (moveEvt) {
       var shift = startX - moveEvt.clientX;
-      startSliderPosition -= shift;
+      sliderPosition -= shift;
       startX = moveEvt.clientX;
-      var newValue = calcSliderValue(startSliderPosition, CONST.SLIDER_LENGTH);
-      setPinPisition(newValue);
-      form.uploadFormImage.style.cssText = setFilterStyle(calcFilterValue(newValue)) + '; ' + saveImageScale;
+      updateDataByPin(sliderPosition);
     };
 
     var onMouseUp = function () {
@@ -80,5 +84,19 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  });
+
+  form.effectLevelPin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode !== CONST.ARROW_LEFT_KEYCODE && evt.keyCode !== CONST.ARROW_RIGHT_KEYCODE) {
+      return;
+    }
+    var sliderPosition = form.effectLevelPin.offsetLeft;
+    var stepValue = Math.round(CONST.SLIDER_LENGTH / 100);
+    if (evt.keyCode === CONST.ARROW_LEFT_KEYCODE) {
+      sliderPosition -= stepValue;
+    } else {
+      sliderPosition += stepValue;
+    }
+    updateDataByPin(sliderPosition);
   });
 })();
