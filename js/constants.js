@@ -69,6 +69,7 @@
     RANDOM_BUTTON_ID: 'filter-random',
     DISCUSSED_BUTTON_ID: 'filter-discussed',
   };
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   window.CONST = {
     ESC_KEYCODE: ESC_KEYCODE,
@@ -91,5 +92,6 @@
     PICTURES_FILTERS: PICTURES_FILTERS,
     ARROW_LEFT_KEYCODE: ARROW_LEFT_KEYCODE,
     ARROW_RIGHT_KEYCODE: ARROW_RIGHT_KEYCODE,
+    FILE_TYPES: FILE_TYPES,
   };
 })();

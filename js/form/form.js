@@ -2,6 +2,7 @@
 
 (function () {
   var CONST = window.CONST;
+  var utils = window.utils;
   var dbRequests = window.dbRequests;
 
   var uploadForm = document.querySelector('.img-upload__form');
@@ -30,6 +31,14 @@
     }
   };
 
+  var removeErrorMessage = function () {
+    var errorMessage = document.querySelector('.top-error-message');
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+    uploadImage.removeEventListener('click', removeErrorMessage);
+  };
+
   var openImgUpload = function () {
     imgUpload.classList.remove('hidden');
     document.addEventListener('keydown', onImgUploadEscPress);
@@ -47,7 +56,23 @@
   };
 
   uploadImage.addEventListener('change', function () {
-    openImgUpload();
+    var file = uploadImage.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = CONST.FILE_TYPES.some(function (item) {
+      return fileName.endsWith(item);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        uploadFormImage.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+      openImgUpload();
+    } else {
+      utils.errorHandler('Неподходящее расширение. Попробуйте: \'gif\', \'jpg\', \'jpeg\' или  \'png\'');
+      uploadImage.addEventListener('click', removeErrorMessage);
+    }
   });
 
   uploadFormClose.addEventListener('click', function () {
@@ -75,39 +100,6 @@
     } else {
       setScaleValue(CONST.SCALE_CONTROL_MAX_VALUE);
     }
-  });
-
-  var checkValidation = function (value) {
-    var hashtags = value.trim().toLowerCase().split(/\s+/);
-    for (var k = 0; k < hashtags.length; k++) {
-      if (hashtags[k][0] !== '#') {
-        return 'хэштэг должен начинаться с \'#\'';
-      }
-      if (hashtags[k] === '#') {
-        return 'хэштэш не может быть только \'#\'';
-      }
-      if (hashtags[k].length > CONST.MAX_HASHTAG_LENGTH) {
-        return 'хэштэш не может быть длинее 20 символов';
-      }
-      if (hashtags[k].lastIndexOf('#') !== 0) {
-        return 'хэштеги должны быть разделены пробелами';
-      }
-      var duplicatedHashtags = hashtags.filter(function (item) {
-        return item === hashtags[k];
-      });
-      if (duplicatedHashtags.length > 1) {
-        return 'хэштеги не могут быть одинаковыми';
-      }
-    }
-    if (hashtags.length > CONST.MAX_HASHTAGS) {
-      return 'Масимум 5 хэштегов';
-    }
-    return '';
-  };
-
-  var textHashtags = imgUpload.querySelector('.text__hashtags');
-  textHashtags.addEventListener('input', function (evt) {
-    textHashtags.setCustomValidity(checkValidation(evt.target.value));
   });
 
   var fragment = document.createDocumentFragment();
