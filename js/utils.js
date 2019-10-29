@@ -15,27 +15,27 @@
     },
     toSplitCommentsArray: function (array) {
       var size = CONST.COMMENTS_PART_SIZE;
-      var subarray = [];
+      var data = [];
       for (var i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice((i * size), (i * size) + size);
+        data[i] = array.slice((i * size), (i * size) + size);
       }
-      return subarray;
+      return data;
     },
     sortItemsByField: function (array, fieldName) {
-      var copy = array.slice();
-      return copy.sort(function (item, nextItem) {
+      var copiedArray = array.slice();
+      return copiedArray.sort(function (item, nextItem) {
         return (item[fieldName] < nextItem[fieldName] ? 1 : -1);
       });
     },
     toShuffleArray: function (array) {
-      var copy = array.slice();
-      for (var i = copy.length - 1; i > 0; i--) {
+      var copiedArray = array.slice();
+      for (var i = copiedArray.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * i);
-        var temporaryItem = copy[i];
-        copy[i] = copy[j];
-        copy[j] = temporaryItem;
+        var temporaryItem = copiedArray[i];
+        copiedArray[i] = copiedArray[j];
+        copiedArray[j] = temporaryItem;
       }
-      return copy;
+      return copiedArray;
     },
     errorHandler: function (errorMessage) {
       var node = document.createElement('div');

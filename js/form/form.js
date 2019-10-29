@@ -36,7 +36,7 @@
     if (errorMessage) {
       errorMessage.remove();
     }
-    uploadImage.removeEventListener('click', removeErrorMessage);
+    document.removeEventListener('click', removeErrorMessage);
   };
 
   var openImgUpload = function () {
@@ -71,7 +71,7 @@
       openImgUpload();
     } else {
       utils.errorHandler('Неподходящее расширение. Попробуйте: \'gif\', \'jpg\', \'jpeg\' или  \'png\'');
-      uploadImage.addEventListener('click', removeErrorMessage);
+      document.addEventListener('click', removeErrorMessage);
     }
   });
 

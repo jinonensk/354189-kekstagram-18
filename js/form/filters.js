@@ -19,6 +19,7 @@
           form.uploadFormImage.classList.add(CONST.FILTERS[i].CLASS);
           filterSlider.classList.remove('hidden');
           currentFilter = CONST.FILTERS[i];
+          return;
         }
       }
     } else {

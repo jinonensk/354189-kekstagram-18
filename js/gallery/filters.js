@@ -6,15 +6,16 @@
   var utils = window.utils;
   var filtersTimeout = null;
 
-  var debouncePictureFilters = function (func, interval) {
+  var debouncePictureFilters = function (callback, interval) {
     if (filtersTimeout) {
       window.clearTimeout(filtersTimeout);
     }
     filtersTimeout = window.setTimeout(function () {
-      func();
+      callback();
     }, interval);
   };
 
+  var sortedPicturesArray = [];
   var debouncedfiltersHandler = function (evt) {
     debouncePictureFilters(function () {
       if (!evt.target.classList.contains('img-filters__button--active')) {
@@ -27,7 +28,10 @@
           gallery.filterPicturesHandler(utils.toShuffleArray(window.picturesArray).slice(0, PICTURES_FILTERS.QUANTITY_IN_RANDOM));
           break;
         case PICTURES_FILTERS.DISCUSSED_BUTTON_ID:
-          gallery.filterPicturesHandler(utils.sortItemsByField(window.picturesArray, PICTURES_FILTERS.FIELD_NAME_IN_DISCUSSED));
+          if (!sortedPicturesArray.length) {
+            sortedPicturesArray = utils.sortItemsByField(window.picturesArray, PICTURES_FILTERS.FIELD_NAME_IN_DISCUSSED);
+          }
+          gallery.filterPicturesHandler(sortedPicturesArray);
           break;
         default:
           gallery.filterPicturesHandler(window.picturesArray);
