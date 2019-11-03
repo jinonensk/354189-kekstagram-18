@@ -22,7 +22,7 @@
         document.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
         evt.target.classList.add('img-filters__button--active');
       }
-      gallery.clearGallery();
+      gallery.clear();
       switch (evt.target.id) {
         case PICTURES_FILTERS.RANDOM_BUTTON_ID:
           gallery.filterPicturesHandler(utils.toShuffleArray(window.picturesArray).slice(0, PICTURES_FILTERS.QUANTITY_IN_RANDOM));
