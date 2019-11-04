@@ -13,6 +13,7 @@
   var uploadFormImage = uploadForm.querySelector('.img-upload__preview img');
   var effectLevelPin = uploadForm.querySelector('.effect-level__pin');
   var effectLevelDepth = uploadForm.querySelector('.effect-level__depth');
+  var filterSlider = imgUpload.querySelector('.img-upload__effect-level');
 
   var setScaleValue = function (value) {
     var currentImageStyle = uploadFormImage.style.cssText;
@@ -36,7 +37,7 @@
     if (errorMessage) {
       errorMessage.remove();
     }
-    uploadImage.removeEventListener('click', removeErrorMessage);
+    document.removeEventListener('click', removeErrorMessage);
   };
 
   var openImgUpload = function () {
@@ -46,6 +47,7 @@
   };
 
   var closeImgUpload = function () {
+    filterSlider.classList.add('hidden');
     imgUpload.classList.add('hidden');
     uploadForm.reset();
     effectLevelPin.style.left = CONST.MAX_SLIDER_VALUE + '%';
@@ -71,7 +73,7 @@
       openImgUpload();
     } else {
       utils.errorHandler('Неподходящее расширение. Попробуйте: \'gif\', \'jpg\', \'jpeg\' или  \'png\'');
-      uploadImage.addEventListener('click', removeErrorMessage);
+      document.addEventListener('click', removeErrorMessage);
     }
   });
 
@@ -193,12 +195,13 @@
 
   window.form = {
     imgUpload: imgUpload,
-    uploadFormValue: uploadFormValue,
-    uploadFormImage: uploadFormImage,
+    uploadValue: uploadFormValue,
+    uploadImage: uploadFormImage,
     effectLevelPin: effectLevelPin,
     effectLevelDepth: effectLevelDepth,
+    filterSlider: filterSlider,
     toTransformImage: function (value) {
-      var scale = value / 100;
+      var scale = value / CONST.DEFAULT_DIVIDER;
       return 'transform: scale(' + scale + ')';
     },
   };

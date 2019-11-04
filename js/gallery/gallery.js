@@ -40,7 +40,7 @@
 
   window.gallery = {
     picturesFilters: picturesFilters,
-    clearGallery: clearGallery,
+    clear: clearGallery,
     filterPicturesHandler: filterPicturesHandler,
   };
 })();
