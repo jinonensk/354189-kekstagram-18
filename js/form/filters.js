@@ -4,7 +4,7 @@
   var CONST = window.CONST;
   var form = window.form;
 
-  var filterButtonts = form.imgUpload.querySelectorAll('.effects__radio');
+  var filterButtons = form.imgUpload.querySelectorAll('.effects__radio');
   var effectLevelInput = form.imgUpload.querySelector('.effect-level__value');
 
   form.filterSlider.classList.add('hidden');
@@ -51,8 +51,8 @@
     effectLevelInput.value = value;
   };
 
-  for (var i = 0; i < filterButtonts.length; i++) {
-    filterButtonts[i].addEventListener('change', function (evt) {
+  for (var i = 0; i < filterButtons.length; i++) {
+    filterButtons[i].addEventListener('change', function (evt) {
       toApplyFilter(evt.target.value);
       form.uploadImage.style.cssText = form.toTransformImage(parseInt(form.uploadValue.value, 10));
       setPinPisition(CONST.MAX_SLIDER_VALUE);
@@ -70,20 +70,20 @@
     var sliderPosition = form.effectLevelPin.offsetLeft;
     var startX = evt.clientX;
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       var shift = startX - moveEvt.clientX;
       sliderPosition -= shift;
       startX = moveEvt.clientX;
       updateDataByPin(sliderPosition);
     };
 
-    var onMouseUp = function () {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+    var mouseUpHandler = function () {
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
   form.effectLevelPin.addEventListener('keydown', function (evt) {

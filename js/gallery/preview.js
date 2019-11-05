@@ -27,7 +27,7 @@
     return newComment;
   };
 
-  var onBigPictureEscPress = function (evt) {
+  var bigPictureEscPressHandler = function (evt) {
     if (
       evt.keyCode === CONST.ESC_KEYCODE
       && !evt.target.classList.contains('social__footer-text')
@@ -38,7 +38,7 @@
 
   var closeBigPicture = function () {
     bigPicture.classList.add('hidden');
-    document.removeEventListener('keydown', onBigPictureEscPress);
+    document.removeEventListener('keydown', bigPictureEscPressHandler);
     commentsLoader.addEventListener('click', commentsLoaderHandler);
     savedCommentNode = cloneAndCleanComment();
   };
@@ -91,7 +91,7 @@
     },
     openBigPicture: function () {
       bigPicture.classList.remove('hidden');
-      document.addEventListener('keydown', onBigPictureEscPress);
+      document.addEventListener('keydown', bigPictureEscPressHandler);
 
       if (commentsOptions.partsOfComments === 1) {
         commentsLoader.classList.add('hidden');

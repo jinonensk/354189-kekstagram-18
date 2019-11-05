@@ -22,7 +22,7 @@
     uploadFormImage.style.cssText = savedFilterValue + '; ' + window.form.toTransformImage(value);
   };
 
-  var onImgUploadEscPress = function (evt) {
+  var imgUploadEscPressHandler = function (evt) {
     if (
       evt.keyCode === CONST.ESC_KEYCODE
       && !evt.target.classList.contains('text__hashtags')
@@ -42,7 +42,7 @@
 
   var openImgUpload = function () {
     imgUpload.classList.remove('hidden');
-    document.addEventListener('keydown', onImgUploadEscPress);
+    document.addEventListener('keydown', imgUploadEscPressHandler);
     setScaleValue(CONST.SCALE_CONTROL_MAX_VALUE);
   };
 
@@ -54,7 +54,7 @@
     effectLevelDepth.style.width = CONST.MAX_SLIDER_VALUE + '%';
     uploadFormImage.style.cssText = '';
     uploadFormImage.classList = '';
-    document.removeEventListener('keydown', onImgUploadEscPress);
+    document.removeEventListener('keydown', imgUploadEscPressHandler);
   };
 
   uploadImage.addEventListener('change', function () {
@@ -113,17 +113,17 @@
   var closeSuccessModal = function () {
     var element = document.querySelector('.success');
     element.parentNode.removeChild(element);
-    document.removeEventListener('keydown', onSuccesModalEscPress);
-    document.removeEventListener('click', onSuccesModalClick);
+    document.removeEventListener('keydown', succesModalEscPressHandler);
+    document.removeEventListener('click', succesModalClickHandler);
   };
 
-  var onSuccesModalEscPress = function (evt) {
+  var succesModalEscPressHandler = function (evt) {
     if (evt.keyCode === CONST.ESC_KEYCODE) {
       closeSuccessModal();
     }
   };
 
-  var onSuccesModalClick = function (evt) {
+  var succesModalClickHandler = function (evt) {
     if (
       !evt.target.classList.contains('success__inner')
       && !evt.target.classList.contains('success__title')
@@ -136,8 +136,8 @@
     var newSuccess = successTemplate.cloneNode(true);
     fragment.appendChild(newSuccess);
     main.appendChild(fragment);
-    document.addEventListener('keydown', onSuccesModalEscPress);
-    document.addEventListener('click', onSuccesModalClick);
+    document.addEventListener('keydown', succesModalEscPressHandler);
+    document.addEventListener('click', succesModalClickHandler);
     closeImgUpload();
   };
 
@@ -153,29 +153,29 @@
   var closeErrorModal = function () {
     var element = document.querySelector('.error');
     element.parentNode.removeChild(element);
-    document.removeEventListener('keydown', onErrorModalEscPress);
-    document.removeEventListener('click', onErrorOverlaylClick);
+    document.removeEventListener('keydown', errorModalEscPressHandler);
+    document.removeEventListener('click', errorOverlaylClickHandler);
   };
 
-  var onErrorModalEscPress = function (evt) {
+  var errorModalEscPressHandler = function (evt) {
     if (evt.keyCode === CONST.ESC_KEYCODE) {
       closeErrorModal();
     }
   };
 
-  var onErrorOverlaylClick = function (evt) {
+  var errorOverlaylClickHandler = function (evt) {
     if (evt.target.classList.contains('error')) {
       closeErrorModal();
       closeImgUpload();
     }
   };
 
-  var onErrorTryAgainlClick = function () {
+  var errorTryAgainlClickHandler = function () {
     closeErrorModal();
     imgUpload.classList.remove('hidden');
   };
 
-  var onErrorAnotherFileClick = function () {
+  var errorAnotherFileClickHandler = function () {
     closeErrorModal();
     closeImgUpload();
   };
@@ -183,13 +183,13 @@
   var uploadErrorHandler = function (errorMessage) {
     var newError = errorTemplate.cloneNode(true);
     newError.querySelector('.error__title').textContent = errorMessage;
-    newError.querySelector('.error__button:first-child').addEventListener('click', onErrorTryAgainlClick);
-    newError.querySelector('.error__button:nth-child(2)').addEventListener('click', onErrorAnotherFileClick);
+    newError.querySelector('.error__button:first-child').addEventListener('click', errorTryAgainlClickHandler);
+    newError.querySelector('.error__button:nth-child(2)').addEventListener('click', errorAnotherFileClickHandler);
     fragment.appendChild(newError);
     main.appendChild(fragment);
 
-    document.addEventListener('keydown', onErrorModalEscPress);
-    document.addEventListener('click', onErrorOverlaylClick);
+    document.addEventListener('keydown', errorModalEscPressHandler);
+    document.addEventListener('click', errorOverlaylClickHandler);
     imgUpload.classList.add('hidden');
   };
 

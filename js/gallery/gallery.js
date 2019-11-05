@@ -8,6 +8,7 @@
     .querySelector('.picture');
   var picturesSection = document.querySelector('.pictures');
   var picturesFilters = document.querySelector('.img-filters');
+  var picturesArray = [];
 
   var renderPicture = function (picture) {
     var newPicture = pictureTemplate.cloneNode(true);
@@ -19,7 +20,7 @@
 
   var loadDataSuccessHandler = function (data) {
     utils.addElementsToPage(data, picturesSection, renderPicture);
-    window.picturesArray = data;
+    window.gallery.picturesArray = data;
     picturesFilters.classList.remove('img-filters--inactive');
   };
 
@@ -40,6 +41,7 @@
 
   window.gallery = {
     picturesFilters: picturesFilters,
+    picturesArray: picturesArray,
     clear: clearGallery,
     filterPicturesHandler: filterPicturesHandler,
   };

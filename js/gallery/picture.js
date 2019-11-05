@@ -3,12 +3,13 @@
 (function () {
   var CONST = window.CONST;
   var preview = window.preview;
+  var gallery = window.gallery;
 
   var pictures = document.querySelector('.pictures');
 
   var getCurrentImageContent = function (str) {
     var url = str.slice(str.indexOf('photos'));
-    return window.picturesArray.filter(function (item) {
+    return gallery.picturesArray.filter(function (item) {
       return item.url === url;
     })[0];
   };
